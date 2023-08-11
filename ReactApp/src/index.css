@@ -34,12 +34,6 @@ p {
   --text-primary: #222;
 }
 
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-  font-family: 'Poppins', sans-serif;
-}
 
 h1,h2 {
   margin: 45px;
@@ -54,7 +48,7 @@ a {
   text-decoration: none;
   color: var(--text-primary);
 }
-
+ 
 a:hover {
   color: var(--bg-terniary);
 }
@@ -88,5 +82,3 @@ a:hover {
 .github-icon:hover {
   scale: 1.1;
 }
-
-
