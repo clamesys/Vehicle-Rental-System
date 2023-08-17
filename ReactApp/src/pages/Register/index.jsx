@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import Navbar from "../../components/Navbar";
 import axios from 'axios';
-import './register.css'; // CSS dosyasını eklemeyi unutmayın
+import './register.css';
+import 'bulma/css/bulma.min.css'
 
 function index() {
   const [inputs, setInputs] = useState({

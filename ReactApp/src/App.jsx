@@ -12,6 +12,10 @@ import Navbar from "./components/Navbar";
 import { AuthContext } from "./context/authContext"
 import { useContext } from "react";
 
+
+import { QueryClient, QueryClientProvider } from 'react-query' ;
+const queryClient = new QueryClient();
+
 function App() {
 
   const currentUser = useContext(AuthContext).currentUser;
@@ -48,9 +52,11 @@ function App() {
     {path: '/*', element: <NotFound />}
   ]);
   return (
+    <QueryClientProvider client={queryClient}>
       <div className="App">
         <RouterProvider router={router} />
       </div>
+    </QueryClientProvider>
   );
 }
 

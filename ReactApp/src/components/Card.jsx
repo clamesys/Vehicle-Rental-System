@@ -1,46 +1,22 @@
-import React from "react"; 
-import "bulma/css/bulma.css";
+import React from "react";  
+import image1 from "../assets/car1.jpg";
+import { Description } from "@mui/icons-material";
+ 
 
-// export const Cart = () => {
-//   return <h1> Cart </h1>;
-// };
 function Card(props) {
 
-  const {image,title,owner,description}= props; 
-
+  const {image,title,owner,ownerId,description}= props; 
+  
   return (
-    <div className="card ">
-      <div className="card-image">
-        <figure className="image is-4by3">
-          <img
-            src={image}
-            alt="Placeholder image"
-          />
-        </figure>
-      </div>
-      <div className="card-content">
-        <div className="media">
-          <div className="media-left">
-            <figure className="image is-128x128">
-              <img className = "is-rounded "
-                src="https://bulma.io/images/placeholders/128x128.png"
-                alt="Placeholder image"
-              />
-            </figure>
-          </div>
-          <div className="media-content ">
-            <p className="title is-3">{title}</p>
-            <p className="subtitle is-6">{owner}</p>
-          </div>
-        </div>
-
-        <div className="content">
-          {description}
-          <br />
-          <time  >11:09 PM - 1 Jan 2016</time>
-        </div>
-      </div>
+    <article class="card">
+    <img src= {image} alt={"Sample photo"}/>
+    <div class="text">
+      <h3>{title}</h3>
+      <p>{description}</p> 
+      <a class="tag is-link" >{owner}</a>
+      <button > Show More Details</button>
     </div>
+  </article> 
   );
 }
 export default Card;
