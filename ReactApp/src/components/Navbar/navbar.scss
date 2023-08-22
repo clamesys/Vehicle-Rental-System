@@ -149,6 +149,22 @@
                         }
                         
                     }
+                    .logout {
+                        background: rgb(255, 0, 0);
+                       
+        
+                        &:hover {
+                            border-color:rgb(255, 0, 0);
+                            background: rgba(rgb(162, 162, 246), 0.1);
+                            color: rgb(255, 255, 255);
+                        }
+                        &:active {
+                            border-color: rgb(162, 162, 246);
+                            background: linear-gradient(rgba(rgb(162, 162, 246), 0.2), rgba(rgb(162, 162, 246), 0.3));
+                            color: rgb(162, 162, 246);
+                        }
+                        
+                    }
 
         
                     &.isMenu {

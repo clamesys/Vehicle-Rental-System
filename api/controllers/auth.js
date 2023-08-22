@@ -23,12 +23,13 @@ export const register =  (req, res) => {
     });
 }
 
-export const login = async (req, res) => {
+export const login = async (req, res) => { 
     const q = "SELECT * FROM user WHERE Email = ?" ;
     db.query(q, [req.body.Email], (err, data) => { 
         if (err) throw res.status(500).json(err);
         else if(data.length === 0) return res.status(404).json("User not found");
-        const  checkPassword = bcrypt.compareSync(req.body.Password, data[0].Password); 
+        const  checkPassword = bcrypt.compareSync(req.body.Password, data[0].Password);
+
         if(!checkPassword)
          return res.status(400).json("Password is incorrect");
         else{

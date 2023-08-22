@@ -1,4 +1,4 @@
-import React from "react";
+
 import Card from "../../components/Card"; 
 import "./home.css" ;
 import { useQuery } from 'react-query' ;
@@ -22,16 +22,17 @@ function Home() {
           <p className="title has-text-centered">Home</p>
         </div>
       </section>{" "}
-      <main class="cards">
+      <main className="cards">
         {isLoading ? (
           <p>Loading...</p>
         ) : error ? (
           <p>Error: {error.message}</p>
         ) : (
           data.map((vehicle) => (
-            <div>
+            <div >
               {console.log(vehicle.Photo)}
               <Card
+              VehicleId={vehicle.VehicleId}
                 image={vehicle.Photo}
                 title={vehicle.Brand}
                 ownerId={vehicle.OwnerFirmId}

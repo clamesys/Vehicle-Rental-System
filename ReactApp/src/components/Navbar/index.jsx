@@ -1,22 +1,24 @@
-import React, { useEffect, useState } from "react";
+import  { useContext,useEffect, useState } from "react";
 import { BiMenuAltRight } from "react-icons/bi";
 import { AiOutlineClose } from "react-icons/ai";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./navbar.scss";
 
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import HelpCenterOutlinedIcon from '@mui/icons-material/HelpCenterOutlined';
 import AccountBoxOutlinedIcon from '@mui/icons-material/AccountBoxOutlined';
+import { AuthContext } from "../../context/authContext";
 function Navbar({ selected }) {
-  const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
   const [size, setSize] = useState({
     width: 0,
     height: 0,
   });
   useEffect(() => {
+    
     const handleResize = () => {
+      console.log(localStorage.getItem("user"));
       setSize({
         width: window.innerWidth,
         height: window.innerHeight,
@@ -35,8 +37,14 @@ function Navbar({ selected }) {
 
   const menuToggleHandler = () => {
     setMenuOpen((p) => !p);
+  }; 
+  const Logout =  useContext(AuthContext).logoutContext;
+  const user = useContext(AuthContext).currentUser;
+  const LogoutPress = async() => {
+    localStorage.removeItem("user");
+    await Logout
+    window.location.reload();
   };
-
   return (
     <header className="header">
       <div className="header__content">
@@ -70,14 +78,16 @@ function Navbar({ selected }) {
                 selected == "Profile" ? `${"isSelected"}` : ""
               }  }`}
             >
-              <Link to="/profile/null"><AccountBoxOutlinedIcon/>Profile</Link>
+              <Link to={(user!== null && user !==undefined )?"/profile/"+ user.UserId:"/"}><AccountBoxOutlinedIcon/>Profile</Link>
             </li>
             {" | "}
             <Link to="/register">
               <button className="btn">Register</button>
             </Link>
-            <Link to="/login">
-              <button className="btn login">Login</button>
+            <Link to="/login">{localStorage.getItem("user")? <button className="btn logout" onClick={
+             LogoutPress
+            }>Logout</button> :
+              <button className="btn login">Login</button>}
             </Link>
           </ul>
         </nav>
