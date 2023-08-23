@@ -10,6 +10,7 @@ BIL 372 Course Project
 <h3>Run in local</h3>
 
   `cd /ReactApp`
+  
   `npm run dev`
   <br/>
   for frontend
@@ -18,6 +19,7 @@ BIL 372 Course Project
   <br/>
 
   `cd /api`
+  
   `npm start`
   <br/>
   for Backend
