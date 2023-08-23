@@ -1,4 +1,4 @@
-import {fetchUsersRents} from "../../context/rentContext.jsx";
+import {UserInUseVehicles, fetchUsersRents} from "../../context/rentContext.jsx";
 import { useContext, useEffect,useState } from "react";
 import TableElement from "./tableElement";
 import { AuthContext } from "../../context/authContext.jsx";
@@ -9,6 +9,7 @@ export default function Basic() {
   const [address, setAddress] = useState("");
   const [telNo, setTelNo] = useState(0);
   const [data, setData] = useState([]); 
+  const [dataInUse, setDataInUse] = useState([]); 
   const currentUser = useContext(AuthContext).currentUser;
   useEffect(() => {
     async function fetchUsersRentsData() {
@@ -20,13 +21,15 @@ export default function Basic() {
         currentUser.TelNo
       ).then((data) => {
         setData(data.rentedCars);
+        console.log(data);
       }).catch((err) => {
         console.log(err);
       });
-  }
+  } 
     fetchUsersRentsData();
-  }, [currentUser]);
 
+  }, [currentUser]);
+  
   const nameHandler = (e) => {
     setName(e.target.value);
   };
@@ -51,14 +54,12 @@ export default function Basic() {
       address,
       telNo
     );
-    console.log("aa "+dataLocal);
+    console.log(dataLocal);
     setData(dataLocal.rentedCars);
-
-  }
+  } 
   return (
     <div className="columns">
-      <div className="column one-fifth"></div>
-      {(useContext(AuthContext).currentUser.is_admin === 1) &&
+      {useContext(AuthContext).currentUser.is_admin === 1 && (
         <div className="column one-third">
           <div className="field">
             <label className="label is-medium">
@@ -120,14 +121,16 @@ export default function Basic() {
           </div>
           <div className="field is-grouped">
             <div className="control">
-              <button className="button is-primary " onClick={submit}>Save</button>
+              <button className="button is-primary " onClick={submit}>
+                Search
+              </button>
             </div>
           </div>
         </div>
-      }
+      )}
 
       <div className="column one-third">
-        <label className="label is-large">Your Rental History</label>
+        <label className="label is-large">{currentUser.Name}'s Rental History</label>
         <table className="table">
           <thead>
             <tr>
@@ -154,30 +157,67 @@ export default function Basic() {
           </thead>
 
           <tbody>
-          { data && data.length>0 && data !== undefined && data.map((rent) => (
-            <TableElement key={rent.RentId}
-            keyId={rent.RentId}
-              plate={rent.RentedVehicleId}
-              pickLock={rent.PickupLocation}
-              dropLock={rent.DropOfLocation}
-              firm={rent.OwnerFirmId}
-              startDate={rent.RentalStart}
-              endDate={rent.RentalEnd}
-            />))
-            }
-            {/*<TableElement
-              plate="34 ABC 34"
-              pickLock="Istanbul"
-              dropLock="Izmir"
-              firm="Firm1"
-              startDate="01.01.2021"
-              endDate="01.02.2021"
-            />*/}
+            {data &&
+              data.length > 0 &&
+              data !== undefined &&
+              data.map((rent) => (
+                
+                <TableElement
+                  key={rent.RentId}
+                  InUse={0}
+                  keyId={rent.RentId}
+                  plate={rent.RentedVehicleId}
+                  pickLock={rent.PickupLocation}
+                  dropLock={rent.DropOfLocation}
+                  firm={rent.FirmName}
+                  startDate={rent.RentalStart}
+                  endDate={rent.RentalEnd}
+                />
+              ))}
           </tbody>
         </table>
       </div>
 
-      <div className="column one-fifth"></div>
+      <div className="column one-fifth">
+        <label className="label is-large">In Use Vehicles</label>
+        <table className="table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>
+                <abbr title="RentedVehicleId">Plate</abbr>
+              </th>
+              <th>
+                <abbr title="PickupLocation">Pick</abbr>
+              </th>
+              <th>
+                <abbr title="DropOfLocation">Drop</abbr>
+              </th>
+              <th>
+                <abbr title="OwnerFirmName">Firm</abbr>
+              </th>
+              <th>
+                <abbr title="RentalDateStart">Rent Start Date</abbr>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {data && data.length > 0 && data.map((rent) => ( rent.RentalEnd === ""? (
+            <TableElement
+              key={rent.RentId}
+              InUse={1}
+              keyId={rent.RentId}
+              plate={rent.RentedVehicleId}
+              pickLock={rent.PickupLocation}
+              dropLock={rent.DropOfLocation}
+              firm={rent.FirmName}
+              startDate={rent.RentalStart}
+              endDate={rent.RentalEnd}
+            />
+            ) : null ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

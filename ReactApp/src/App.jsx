@@ -13,10 +13,13 @@ import Browse from "./pages/Browse";
 import Register from "./pages/Register";
 import MyFooter from "./components/footer";
 import Navbar from "./components/Navbar";
+import EndRent from "./pages/EndRent";
+
 import { AuthContext } from "./context/authContext";
 import { useContext } from "react";
 
 import { QueryClient, QueryClientProvider } from "react-query";
+
 const queryClient = new QueryClient();
 
 function App() {
@@ -51,7 +54,8 @@ function App() {
         { path: "/", element: <Home /> },
         { path: "/profile/:id", element: <Profile /> },
         { path: "/browse", element: <Browse /> },
-        { path: "/help", element: <Help /> },
+        { path: "/help", element: <Help /> }, 
+        { path: "/endRent", element: <EndRent/> },
       ],
     },
     { path: "/login", element: <Login /> },

@@ -82,3 +82,7 @@ a:hover {
 .github-icon:hover {
   scale: 1.1;
 }
+
+.column { 
+  margin: 50px;
+}

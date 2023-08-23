@@ -1,5 +1,6 @@
 
 import axios from "axios";
+import { json } from "react-router-dom";
 const API_URL = "http://localhost:8800";
 
 export const fetchUsersRents = async (
@@ -54,7 +55,6 @@ export const insertRent = async (
     OwnerFirmId,
     RentalStart,
     RentalEnd) => {
-        console.log(vehicleId, renterUserId, PickupLocation, DropOfLocation, OwnerFirmId, RentalStart, RentalEnd);
     try {
         const response = await axios.post(
             API_URL + "/api/rents/insert",
@@ -93,6 +93,50 @@ export const deleteRent = async (
 
 }
  
+export const UserInUseVehicles = async (
+    UserId
+    ) => { 
+        const response= await axios.post(
+             API_URL + "/api/rents/inUseVehicles",
+             { 
+                UserId
+             },
+             { withCredentials: true }
+         ).then((response) => {  
+            return response.data;
+         }).catch((error) => {
+             throw new Error("Harun " + error);
+         }
+         );
+ 
+ }  
+
+ export const endRent = async (
+    plate,
+    keyId, 
+    endDate,
+    location
+    ) => {    
+         await axios
+           .post(
+             API_URL + "/api/rents/endRent",
+             {
+               plate: plate,
+               keyId: keyId,
+               endDate: endDate,
+               location: location,
+             },
+             { withCredentials: true }
+           )
+           .then((response) => {
+             window.location.reload(true);
+             return response.data;
+           })
+           .catch((error) => {
+             throw new Error("Harun " + error);
+           });
+ 
+ }    
 
 
-export const RentContext = { fetchUsersRents };
+export const RentContext = { fetchUsersRents,UserInUseVehicles };

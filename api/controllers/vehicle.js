@@ -2,7 +2,7 @@ import { db } from "../connect.js";
 
 export const getVehicles = (req, res) => {
   const q =
-    "SELECT VehicleId,FuelType,Brand,OwnerFirmId,Photo,FirmName FROM vehicle,firm  Where vehicle.OwnerFirmId = firm.FirmId";
+    "SELECT VehicleId,FuelType,Brand,OwnerFirmId,Photo,FirmName FROM vehicle,firm  Where vehicle.OwnerFirmId = firm.FirmId AND vehicle.InUse = 0";
   db.query(q, (err, data) => {
     if (err) return res.status(500).json(err);
     return res.status(200).json(data);
@@ -46,14 +46,14 @@ export const getVehiclesFiltered = (req, res) => {
 };
 
 export const getMakes = (req, res) => {
-  const q = "SELECT DISTINCT Make FROM ?";
+  const q = "SELECT DISTINCT Make FROM ?  AND InUse = 0";
     db.query(q, [req.body.type], (err, data) => {
     if (err) return res.status(500).json(err);
     return res.status(200).json(data);
     });
 };
 export const getModels = (req, res) => {
-  const q = "SELECT DISTINCT Brand FROM vehicle Where Make = ?";
+  const q = "SELECT DISTINCT Brand FROM vehicle Where Make = ?  AND InUse = 0";
   db.query(q, [req.body.make], (err, data) => {
     if (err) return res.status(500).json(err);
     return res.status(200).json(data);
@@ -61,7 +61,7 @@ export const getModels = (req, res) => {
 };
 export const getYears = (req, res) => {
   const q =
-    "SELECT DISTINCT YearOfProduction FROM vehicle Where Make = ? AND Brand = ?";
+    "SELECT DISTINCT YearOfProduction FROM vehicle Where Make = ? AND Brand = ?  AND InUse = 0";
   db.query(q, [req.body.make, req.body.brand], (err, data) => {
     if (err) return res.status(500).json(err);
     return res.status(200).json(data);
@@ -69,7 +69,7 @@ export const getYears = (req, res) => {
 };
 export const getPrices = (req, res) => {
   const q =
-    "SELECT DISTINCT Price FROM vehicle Where Make = ? AND Brand = ? AND YearOfProduction = ?";
+    "SELECT DISTINCT Price FROM vehicle Where Make = ? AND Brand = ? AND YearOfProduction = ? AND InUse = 0";
   db.query(q, [req.body.make, req.body.brand, req.body.year], (err, data) => {
     if (err) return res.status(500).json(err);
     return res.status(200).json(data);

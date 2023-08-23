@@ -46,7 +46,7 @@ export const getUserRents = (req, res) => {
         const userIds = userData.map(user => user.UserId); // Assuming 'id' is the identifier column
 
         // Construct the query to get rented cars for the retrieved user IDs
-        let carQuery = 'SELECT * FROM userrentsvehicle WHERE RenterUserId IN (?)';
+        let carQuery = 'SELECT * FROM userrentsvehicle,firm WHERE RenterUserId IN (?) And OwnerFirmId = FirmId';
         db.query(carQuery, [userIds], (carErr, carData) => {
             if (carErr) return res.status(500).json(carErr);
 
@@ -62,11 +62,16 @@ export const getUserRents = (req, res) => {
 };
 
 export const insertRent = (req, res) => {
-    const q = 'INSERT INTO userrentsvehicle (RentedVehicleId, RenterUserId, PickupLocation, DropOfLocation, OwnerFirmId, RentalStart, RentalEnd) VALUES (?, ?, ?, ?, ?, ?, ?)';
-    db.query(q, [req.body.vehicleId, req.body.renterUserId, req.body.PickupLocation, req.body.DropOfLocation, req.body.OwnerFirmId, req.body.RentalStart, req.body.RentalEnd], (err, data) => {
+    const q1 = 'INSERT INTO userrentsvehicle (RentedVehicleId, RenterUserId, PickupLocation, DropOfLocation, OwnerFirmId, RentalStart, RentalEnd) VALUES (?, ?, ?, ?, ?, ?, ?)';
+    db.query(q1, [req.body.vehicleId, req.body.renterUserId, req.body.PickupLocation, req.body.DropOfLocation, req.body.OwnerFirmId, req.body.RentalStart, req.body.RentalEnd], (err, data) => {
+        if (err) return res.status(500).json(err);
+    });
+    const q2 = 'UPDATE vehicle SET InUse = 1 WHERE VehicleId = ?';
+    db.query(q2, [req.body.vehicleId], (err, data) => {
         if (err) return res.status(500).json(err);
         return res.status(200).json(data);
     });
+    return null;
 };
 
 export const deleteRent = (req, res) => {
@@ -76,4 +81,27 @@ export const deleteRent = (req, res) => {
         if (err) return res.status(500).json(err);
         return res.status(200).json(data);
     });
+}
+export const endRent = (req, res) => {
+    const q = 'UPDATE vehicle SET InUse = 0 WHERE VehicleId = ?';
+    db.query(q, [req.body.plate], (err, data) => {
+        
+        if (err) return res.status(500).json(err);
+    });
+    const q2 = 'UPDATE userrentsvehicle SET DropOfLocation = ? , RentalEnd  = ?  WHERE RentId = ?';
+    db.query(q2, [req.body.location,req.body.endDate ,req.body.keyId], (err, data) => {
+        
+        if (err) return res.status(500).json(err);
+        return res.status(200).json();
+    });
+    return res.status(200).json();
+}
+export const fetchInUseVehicles = (req, res) => { 
+    const q = 'select * from vehicle join userrentsvehicle on vehicle.VehicleId = userrentsvehicle.RentedVehicleId where InUse = 1 and RenterUserId = ?';
+    db.query(q, [req.body.UserId], (err, data) => {
+            
+            if (err) return res.status(500).json(err); 
+            return res.status(200).json(data);
+        }
+    );
 }
