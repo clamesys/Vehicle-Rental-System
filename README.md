@@ -4,11 +4,18 @@ ON GOING PROJECT
 BIL 372 Course Project
 
 <h3>Install Req</h3>
-  npm -i
+  
+  `npm -i`
 
 <h3>Run in local</h3>
-  npm dev run 
+
+  `npm run dev`
+  <br/>
   for frontend
 
-  npm start 
+  <br/>
+  <br/>
+  
+  `npm start`
+  <br/>
   for Backend
