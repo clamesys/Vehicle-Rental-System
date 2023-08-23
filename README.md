@@ -7,4 +7,8 @@ BIL 372 Course Project
   npm -i
 
 <h3>Run in local</h3>
-  npx dev run
+  npm dev run 
+  for frontend
+
+  npm start 
+  for Backend
