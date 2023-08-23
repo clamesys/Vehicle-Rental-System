@@ -138,5 +138,17 @@ export const UserInUseVehicles = async (
  
  }    
 
+ export const VehiclesForManager = async (
+    managerId
+ ) => {
+    try {
+        const response = await axios.post(
+            API_URL + "/api/vehicles/vehiclesForManager",{"managerId" : managerId} 
+        );
+        return response.data;
+    } catch (error) {
+        console.log("Failed to fetch vehicle");
+    }
+ }
 
 export const RentContext = { fetchUsersRents,UserInUseVehicles };

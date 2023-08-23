@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { fetchVehicle } from "../../context/vehicleContext.jsx";
 import "./browse.css";
 import "../../index.css";
@@ -19,6 +19,14 @@ function Browse() {
   const [models, setModels] = useState([]);
   const [years, setYears] = useState([]);
   const [prices, setPrices] = useState([]);
+
+  useEffect(() => {
+    const fetchMakesData = async () => {
+      const data = await fetchMakes();
+      setMakes(data);
+    };
+    fetchMakesData();
+  }, []);
   const typeHandler = async (e) => {
     setSelectedType(e.target.value);
     if (e.target.value === "car") {
@@ -46,6 +54,7 @@ function Browse() {
       setMake("toyota");
       setModel("camry");
     }
+
   };
   const makeHandler = (e) => {
     setMake(e.target.value);
@@ -168,51 +177,21 @@ function Browse() {
           <option value="100">100</option>
           <option value="200">200</option>
           <option value="300">300</option>
-        </select>
-        <label htmlFor="location">Location:</label>
-        <select name="location" id="location" onChange={locationHandler}>
-          <option value="newyork">New York</option>
-          <option value="losangeles">Los Angeles</option>
-          <option value="chicago">Chicago</option>
-        </select>
+        </select> 
         <div className="field has-addons">
+          
           <div className="control">
-            <input
-              className="input"
-              type="text"
-              placeholder="Find a vehicle"
-              onChange={textHandler}
-            />
-          </div>
-          <div className="control">
-            <a className="button is-info" onClick={Submit}>
+            <button className="button is-info" onClick={Submit}>
               Search
-            </a>
+            </button>
           </div>
         </div>
         <div>
-          <main className="cards">
-            {data.length === 0 ? (
-              <p>Loading...</p>
-            ) : (
-              data.map((vehicle) => (
-                <div key={vehicle.VehicleId}>
-                  <Card
-                    VehicleId={vehicle.VehicleId}
-
-                    image={vehicle.Photo}
-                    title={vehicle.Brand}
-                    owner={vehicle.FirmName}
-                    ownerId={vehicle.OwnerFirmId}
-                    description={vehicle.FuelType}
-                    onClick={rentCar}
-                  />
-                </div>
-              ))
-            )}
-          </main>
+          
         </div>
       </div>
+
+      
     </>
   );
 }

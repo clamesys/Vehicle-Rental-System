@@ -1,7 +1,10 @@
-import {UserInUseVehicles, fetchUsersRents} from "../../context/rentContext.jsx";
+import {UserInUseVehicles, VehiclesForManager, fetchUsersRents} from "../../context/rentContext.jsx";
 import { useContext, useEffect,useState } from "react";
 import TableElement from "./tableElement";
 import { AuthContext } from "../../context/authContext.jsx";
+import Card from "../../components/Card";
+
+
 export default function Basic() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -9,7 +12,7 @@ export default function Basic() {
   const [address, setAddress] = useState("");
   const [telNo, setTelNo] = useState(0);
   const [data, setData] = useState([]); 
-  const [dataInUse, setDataInUse] = useState([]); 
+  const [dataManager, setDataManager] = useState([]); 
   const currentUser = useContext(AuthContext).currentUser;
   useEffect(() => {
     async function fetchUsersRentsData() {
@@ -25,6 +28,13 @@ export default function Basic() {
       }).catch((err) => {
         console.log(err);
       });
+       async function getMangersVehicles  ()  {
+      
+        const dataLocal = await VehiclesForManager(currentUser.UserId);
+        setDataManager(dataLocal);
+        console.log(dataLocal);
+      }
+      getMangersVehicles();
   } 
     fetchUsersRentsData();
 
@@ -57,7 +67,12 @@ export default function Basic() {
     console.log(dataLocal);
     setData(dataLocal.rentedCars);
   } 
+  useEffect(() => {
+    
+  }, [currentUser]);
+
   return (
+    <>
     <div className="columns">
       {useContext(AuthContext).currentUser.is_admin === 1 && (
         <div className="column one-third">
@@ -218,6 +233,24 @@ export default function Basic() {
           </tbody>
         </table>
       </div>
+      
     </div>
+     <main className="cards">
+     {
+       dataManager && dataManager.length > 0 && dataManager.map((vehicle) => (
+          <Card
+            key={vehicle.VehicleId} 
+          IsManager={true}
+            title={vehicle.Make+" - "+vehicle.Brand}  
+            owner = {vehicle.FirmName}
+            ownerId = {vehicle.OwnerFirmId}
+            description={vehicle.Description}
+            image={vehicle.Photo}
+            vehicleId={vehicle.VehicleId} 
+          />
+       ))
+     }
+   </main>
+   </>
   );
 }

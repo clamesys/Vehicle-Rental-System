@@ -1,15 +1,16 @@
 import React, { useContext, useEffect } from "react"; 
 import "./card.scss"; 
 import { AuthContext } from "../context/authContext.jsx"; 
-import { insertRent } from "../context/rentContext.jsx";
+import { deleteRent, insertRent } from "../context/rentContext.jsx";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { deleteVehiclesFromManager } from "../context/vehicleContext";
 
 function Card(props) {
   let navigate = useNavigate();
-  const { VehicleId, image, title, owner, ownerId, description } = props;
+  const {IsManager, VehicleId, image, title, owner, ownerId, description } = props;
   const auth = useContext(AuthContext).currentUser; 
-  const [rentalState, setRentalState] = React.useState(false);
+  const [rentalState, setRentalState] = React.useState(false); 
   useEffect(() => {
     return () => {
       console.log("Card component is unmounted");
@@ -39,12 +40,29 @@ function Card(props) {
   const handleChange = event => {
     setPickLocation(event.target.value);  
   };
+
+  const deleteVehicle = async () => {
+    const data = await deleteVehiclesFromManager(VehicleId);
+    console.log(data);
+  }
   return (
     <article className="card">
       <img className="carImage" src={image} alt={"Sample photo"} />
       <div className="text">
         <h3>{title}</h3>
-        {rentalState ? (
+        {IsManager ? (
+          <>
+            <a className="tag is-link">{owner}</a>
+            <button
+              className="button is-warning Rent"
+              onClick={async() => { await deleteVehicle();
+              }}
+            >
+              Delete
+            </button>
+          </>
+        ) : ( <>
+           {rentalState ? (
           <>
             <h1>StartRent</h1>
             <input
@@ -76,7 +94,11 @@ function Card(props) {
               Edit Rent Details
             </button>
           </>
-        )}
+        )}</>
+        )  
+        }
+ 
+       
       </div>
     </article>
   );

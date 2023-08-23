@@ -2,7 +2,7 @@ import { db } from "../connect.js";
 
 export const getVehicles = (req, res) => {
   const q =
-    "SELECT VehicleId,FuelType,Brand,OwnerFirmId,Photo,FirmName FROM vehicle,firm  Where vehicle.OwnerFirmId = firm.FirmId AND vehicle.InUse = 0";
+    "SELECT VehicleId,FuelType,Brand,OwnerFirmId,Make,Photo,FirmName FROM vehicle,firm  Where vehicle.OwnerFirmId = firm.FirmId AND vehicle.InUse = 0";
   db.query(q, (err, data) => {
     if (err) return res.status(500).json(err);
     return res.status(200).json(data);
@@ -75,3 +75,25 @@ export const getPrices = (req, res) => {
     return res.status(200).json(data);
   });
 };
+
+export const deleteVehicle = (req, res) => {
+  const q = "DELETE FROM rentvehicle.vehicle WHERE VehicleId = ?";
+  db.query(q, [req.body.plate], (err, data) => {
+    if (err) return res.status(500).json(err);
+    return res.status(200).json(data);
+  });
+}
+export const addVehicle = (req, res) => {
+  const q = "INSERT INTO vehicle (VehicleId, FuelType, Brand, OwnerFirmId, Make, Photo, FirmName) VALUES (?, ?, ?, ?, ?, ?, ?)";
+  db.query(q, [req.body.plate, req.body.fuel, req.body.brand, req.body.owner, req.body.make, req.body.photo, req.body.firmName], (err, data) => {
+    if (err) return res.status(500).json(err);
+    return res.status(200).json(data);
+  });
+}
+export const vehiclesForManager = (req, res) => {
+  const q = "SELECT * FROM rentvehicle.vehicle AS v join rentvehicle.firm as f on v.OwnerFirmId=f.FirmId join rentvehicle.user as u on u.UserId = f.ManagerId WHERE UserId = ? ";
+  db.query(q, [req.body.managerId], (err, data) => {
+    if (err) return res.status(500).json(err);
+    return res.status(200).json(data);
+  });
+}

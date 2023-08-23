@@ -77,4 +77,16 @@ export const fetchPrices = async (make, model, year) => {
   }
 };
 
+export const deleteVehiclesFromManager = async (plate) => {
+  try {
+    const response = await axios.post(
+      API_URL + "/api/vehicles/delete",
+      { "plate": plate }
+ 
+    );
+    return response.data;
+  } catch (error) {
+    throw new Error("Failed to fetch vehicle");
+  }
+}
 export const VehicleContext = { fetchVehicle, fetchMakes, fetchModels, fetchYears, fetchPrices };

@@ -34,7 +34,7 @@ function Home() {
               <Card
               VehicleId={vehicle.VehicleId}
                 image={vehicle.Photo}
-                title={vehicle.Brand}
+                title={vehicle.Make +' - '+ vehicle.Brand }
                 ownerId={vehicle.OwnerFirmId}
                 owner={vehicle.FirmName}
                 description={vehicle.FuelType}
