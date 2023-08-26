@@ -1,30 +1,6 @@
 # Vehicle-Rental-System
 ON GOING PROJECT
 
-BIL 372 Course Project
-
-<h3>Install Req</h3>
-  
-  `npm -i`
-
-<h3>Run in local</h3>
-
-  `cd /ReactApp`
-  
-  `npm run dev`
-  <br/>
-  for frontend
-
-  <br/>
-  <br/>
-
-  `cd /api`
-  
-  `npm start`
-  <br/>
-  for Backend
-  <br/>
-
 🚗 Vehicle Rental System 🚕
 
 Welcome to the Vehicle Rental System repository! This project is designed to provide a comprehensive solution for managing vehicle rentals and reservations. Whether you're building a car rental agency, bike sharing platform, or any other vehicle rental service, this system can serve as a solid foundation.
@@ -62,3 +38,25 @@ This project is licensed under the [Specify Your License] License. See the LICEN
 If you have any questions, suggestions, or feedback, feel free to open an issue or reach out to us via email (provide your contact details).
 
 Happy coding! 🚀
+
+<h3>Install Req</h3>
+  
+  `npm -i`
+
+<h3>Run in local</h3>
+
+  `cd /ReactApp`
+  
+  `npm run dev`
+  <br/>
+  for frontend
+
+  <br/>
+  <br/>
+
+  `cd /api`
+  
+  `npm start`
+  <br/>
+  for Backend
+  <br/>
