@@ -31,8 +31,6 @@ To set up and run the Vehicle Rental System on your local machine, follow the st
 🤝 Contribution:
 Contributions to the project are welcome! Whether you're fixing a bug, implementing a new feature, or improving the documentation, your efforts are highly appreciated. Please refer to our contribution guidelines for more information.
 
-📝 License:
-This project is licensed under the [Specify Your License] License. See the LICENSE file for more details.
 
 📬 Contact:
 If you have any questions, suggestions, or feedback, feel free to open an issue or reach out to us via email (provide your contact details).
