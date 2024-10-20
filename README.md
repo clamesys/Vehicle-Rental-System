@@ -39,7 +39,7 @@ Happy coding! 🚀
 
 <h3>Install Req</h3>
   
-  `npm -i`
+  `npm i`
 
 <h3>Run in local</h3>
 
